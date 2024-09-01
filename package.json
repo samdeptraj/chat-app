@@ -1,0 +1,23 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node ./app/src/server.js",
+    "dev": "nodemon ./app/src/server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bad-words": "^4.0.0",
+    "date-fns": "^3.6.0",
+    "express": "^4.19.2",
+    "leo-profanity": "^1.7.0",
+    "profanity-check": "^0.0.3",
+    "profanity-filter": "^0.2.1",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
