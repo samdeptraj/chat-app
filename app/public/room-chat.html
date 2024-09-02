@@ -235,23 +235,11 @@
                         ></rect>
                       </svg>
                     </button>
-                    <button class="btn btn-light border btn-lg px-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="feather feather-more-horizontal feather-lg"
-                      >
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="19" cy="12" r="1"></circle>
-                        <circle cx="5" cy="12" r="1"></circle>
-                      </svg>
+                    <button
+                      class="btn btn-light border btn-lg px-3"
+                      id="logout"
+                    >
+                      <i class="fa-solid fa-right-from-bracket"></i>
                     </button>
                   </div>
                 </div>
@@ -515,9 +503,10 @@
                   <input
                     type="text"
                     class="form-control input-chat"
+                    id="input-chat"
                     placeholder="Type your message"
                   />
-                  <button class="btn btn-success">Send</button>
+                  <button class="btn btn-success" id="btn-send">Send</button>
                   <button
                     class="btn btn-primary ml-1 btn-share-location"
                     type="button"
@@ -555,6 +544,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script type="module" src="../src/utils/messages.js"></script>
     <script src="./js/index.js"></script>
   </body>
 </html>

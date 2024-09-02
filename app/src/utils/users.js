@@ -4,7 +4,6 @@ let userList = [
 
 const getUserList = (roomname) => {
     const userLikeRoom = userList.filter(item => item.roomname === roomname);
-    console.log('userLikeRoom: ', userLikeRoom);
     return userLikeRoom;
 }
 const createUserList = (id, username, roomname) => {
