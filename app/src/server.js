@@ -12,7 +12,7 @@ const publicPath = path.join(__dirname, '../public');
 app.use(express.static(publicPath));
 initSocket(server);
 
-server.listen(PORT, () => {
+server.listen(process.env.PORT || PORT, () => {
     console.log("App listening on port " + PORT);
 });
 
