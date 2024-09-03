@@ -3,7 +3,6 @@ let listMessages = [
 
 ];
 const getListMesages = () => {
-  console.log('listMessages: ', listMessages);
   return listMessages;
 }
 const createMessage = (messageInfo) => {
@@ -42,7 +41,6 @@ const renderAllMessages = ({ username, roomname }) => {
   return messageHtml;
 }
 const renderListMesages = ({ roomname, listMessages, currentUser }) => {
-  console.log('currentUser: ', currentUser);
   listMessages = listMessages.filter(item => item.roomname === roomname);
   let messageHtml = '';
   listMessages.map(item => {

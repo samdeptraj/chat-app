@@ -125,21 +125,20 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = 'http://localhost:8000/'
   })
   //chat typing
-  // inputChat.addEventListener('focus', () => {
-  //   const botName = 'ADMIN';
-  //   const user = JSON.parse(localStorage.getItem('user'));
-  //   const messageTyping = `${user.username} đang nhập tin nhắn ...`;
-  //   console.log('user.username: ', user.username);
-  //   socket.emit('typing', { botName, messageTyping, currentUser: user.username })
-  // })
-  // input.addEventListener('blur', () => {
-  //   const user = JSON.parse(localStorage.getItem('user'));
-  //   socket.emit('stop typing', { currentUser: user.username })
-  // })
-  // socket.on('display typing', (renderListMesages) => {
-  //   messages.innerHTML = renderListMesages;
-  //   messages.scrollTop = messages.scrollHeight;
-  // })
+  inputChat.addEventListener('focus', () => {
+    const botName = 'ADMIN';
+    const user = JSON.parse(localStorage.getItem('user'));
+    const messageTyping = `<span>${user.username} đang nhập tin nhắn </span> <img src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-07-846_512.gif" style="width:25px;" alt=""/> `;
+    socket.emit('typing', { botName, messageTyping, currentUser: user.username })
+  })
+  input.addEventListener('blur', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    socket.emit('stop typing', { currentUser: user.username })
+  })
+  socket.on('display typing', (renderListMesages) => {
+    messages.innerHTML = renderListMesages;
+    messages.scrollTop = messages.scrollHeight;
+  })
   // socket.on('remove chatBot', (renderListMesages) => {
   //   messages.innerHTML = renderListMesages;
   //   messages.scrollTop = messages.scrollHeight;

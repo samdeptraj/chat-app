@@ -12,7 +12,6 @@ const initSocket = (server) => {
         socket.on('join room client to server', ({ username, roomname }) => {
             socket.join(roomname);
             socket.username = username; // Lưu tên người dùng
-            console.log('socket.username: ', socket.username);
             socket.roomname = roomname; // Lưu tên phòng
             // Kiểm tra xem người dùng đã tồn tại trong danh sách hay chưa
             const existingUser = getUserList(roomname).find(user => user.username === username);
@@ -57,20 +56,20 @@ const initSocket = (server) => {
                     listMessages: createMessage({ username, roomname, messageText })
                 });
             });
-            // socket.on('typing', ({ botName, messageTyping, currentUser }) => {
-            //     const messageText = createMessages(messageTyping);
-            //     io.to(socket.roomname).emit('display typing', renderListMesages(
-            //         {
-            //             roomname: socket.roomname,
-            //             listMessages: createMessage({ username: botName, roomname, messageText }),
-            //             currentUser
-            //         }
-            //     ));
-            // })
-            // socket.on('stop typing', (currentUser) => {
-            //     removeMesage("ADMIN")
-            //     io.to(socket.roomname).emit('remove chatBot', renderListMesages({ roomname: socket.roomname, listMessages: removeMesage("ADMIN"), currentUser }))
-            // });
+            socket.on('typing', ({ botName, messageTyping, currentUser }) => {
+                const messageText = createMessages(messageTyping);
+                io.to(socket.roomname).emit('display typing', renderListMesages(
+                    {
+                        roomname: socket.roomname,
+                        listMessages: createMessage({ username: botName, roomname, messageText }),
+                        currentUser
+                    }
+                ));
+            })
+            socket.on('stop typing', (currentUser) => {
+                removeMesage("ADMIN")
+                io.to(socket.roomname).emit('remove chatBot', renderListMesages({ roomname: socket.roomname, listMessages: removeMesage("ADMIN"), currentUser }))
+            });
 
             // Xử lý sự kiện disconnect
             socket.on('disconnecting', () => {
