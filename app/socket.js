@@ -70,24 +70,22 @@ const initSocket = (server) => {
                 removeMesage("ADMIN")
                 io.to(socket.roomname).emit('remove chatBot', renderListMesages({ roomname: socket.roomname, listMessages: removeMesage("ADMIN"), currentUser }))
             });
-
             // Xử lý sự kiện disconnect
             socket.on('disconnecting', () => {
-                const userSockets = io.sockets.sockets;
-                const isStillConnected = Array.from(userSockets).some(([id, socket]) => socket.username === socket.username);
+                const isStillConnected = Array.from(io.sockets.sockets.values()).some(
+                    (s) => s.username === socket.username && s !== socket
+                );
 
                 if (!isStillConnected) {
                     removeUserOutRoom(socket.id);
-                    console.log(`User ${socket.username} disconnected`);
-                    if (socket.roomname) {
-                        io.to(socket.roomname).emit("send user list from server to client", {
-                            listUser: getUserList(socket.roomname),
-                            username: socket.username
-                        });
-                        io.to(socket.roomname).emit('notify', createMessages(`${socket.username} đã rời khỏi phòng ${socket.roomname}`));
-                    }
+                    io.to(socket.roomname).emit("send user list from server to client", {
+                        listUser: getUserList(socket.roomname),
+                        username: socket.username
+                    });
+                    io.to(socket.roomname).emit('notify', createMessages(`${socket.username} đã rời khỏi phòng ${socket.roomname}`));
                 }
             });
+
 
         });
     });

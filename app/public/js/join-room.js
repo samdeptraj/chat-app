@@ -12,3 +12,8 @@ btnJoinApp.addEventListener('click', () => {
     localStorage.removeItem('user');
 
 })
+
+//kích user
+//key
+//backgroundroom
+//chat icon

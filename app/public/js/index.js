@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnLogout = document.getElementById('logout');
   const inputChat = document.getElementById('input-chat');
   const btnSend = document.getElementById('btn-send');
+  const backgroundInput = document.getElementById('background-input');
+  const backgroundContainer = document.getElementById('background-container');
+  const emojiBtn = document.getElementById('emoji-btn');
+  const emojiPicker = document.getElementById('emoji-picker');
 
   const queryString = location.search;
   const params = Qs.parse(queryString, {
@@ -18,7 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   const { username, roomname } = params;
   socket.emit("join room client to server", { username, roomname });
-
+  btnSend.addEventListener('click', () => {
+    emojiPicker.style.display = 'none';
+  })
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem('user'));
@@ -50,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log('Thông báo: ', message);
   });
   socket.on("message", ({ username, roomname, messageText, listMessages }, location) => {
-    console.log('Tin nhắn: ', { username, messageText });
+    // console.log('Tin nhắn: ', { username, messageText });
     const currentUser = JSON.parse(localStorage.getItem('user'));
     listMessages = listMessages.filter(item => item.roomname === roomname);
     let messageHtml = '';
@@ -82,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     messages.innerHTML = messageHtml;
     messages.scrollTop = messages.scrollHeight;
-    console.log('Tin nhắn: ', { username, messageText });
   });
 
 
@@ -122,7 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   btnLogout.addEventListener('click', () => {
     localStorage.removeItem('user');
-    window.location.href = 'http://localhost:8000/'
+    // window.location.href = process.env.BASE_URL;
+    window.location.href = 'http://localhost:8000/';
   })
   //chat typing
   inputChat.addEventListener('focus', () => {
@@ -139,8 +145,43 @@ document.addEventListener("DOMContentLoaded", () => {
     messages.innerHTML = renderListMesages;
     messages.scrollTop = messages.scrollHeight;
   })
-  // socket.on('remove chatBot', (renderListMesages) => {
-  //   messages.innerHTML = renderListMesages;
-  //   messages.scrollTop = messages.scrollHeight;
-  // })
+  socket.on('remove chatBot', (renderListMesages) => {
+    messages.innerHTML = renderListMesages;
+    messages.scrollTop = messages.scrollHeight;
+  })
+  backgroundInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    //check type img
+    const allowType = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!allowType.includes(file.type)) {
+      const messageText = 'File không đúng định dạng, yêu cầu "jpg", "png", "gif"';
+      alert(messageText);
+      backgroundInput.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      const backgroundUrl = e.target.result;
+      backgroundContainer.style.background = `url(${backgroundUrl})`;
+      socket.emit('change background', { roomname, backgroundUrl });
+    }
+    reader.readAsDataURL(file); // onload goi sau khi readasdataurl doc file xong
+  })
+  socket.on('change background stc', ({ backgroundUrl }) => {
+    backgroundContainer.style.background = `url(${backgroundUrl})`;
+  })
+  //set emoji
+  emojiBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (emojiPicker.style.display === 'none') {
+      emojiPicker.style.display = 'block';
+    } else {
+      emojiPicker.style.display = 'none';
+    }
+  })
+  emojiPicker.addEventListener('emoji-click', e => {
+    inputChat.value += e.detail.unicode;
+    console.log('inputChat.value: ', inputChat.value);
+
+  })
 });

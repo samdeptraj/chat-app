@@ -190,7 +190,17 @@
                     <strong>Sharon Lessman</strong>
                     <div class="text-muted small"><em>Typing...</em></div>
                   </div>
-                  <div>
+                  <div class="d-flex">
+                    <div class="image-upload mr-2">
+                      <label for="file-input">
+                        <img
+                          src="../images/backgrounds/chooseBg.png"
+                          alt="Upload Icon"
+                          class="upload-icon"
+                        />
+                      </label>
+                      <input id="background-input" type="file" />
+                    </div>
                     <button class="btn btn-primary btn-lg mr-1 px-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -247,6 +257,7 @@
 
               <div
                 class="position-relative"
+                id="background-container"
                 style="height: 79%; overflow: hidden"
               >
                 <div
@@ -498,7 +509,7 @@
                 </div>
               </div>
 
-              <div class="flex-grow-0 py-3 px-4 border-top">
+              <div class="flex-grow-0 py-3 pr-4 border-top">
                 <div class="input-group">
                   <input
                     type="text"
@@ -506,6 +517,10 @@
                     id="input-chat"
                     placeholder="Type your message"
                   />
+                  <button id="emoji-btn" class="btn btn-outline">
+                    <i class="fa-regular fa-face-smile"></i>
+                  </button>
+                  <emoji-picker id="emoji-picker"></emoji-picker>
                   <button class="btn btn-success" id="btn-send">Send</button>
                   <button
                     class="btn btn-primary ml-1 btn-share-location"
@@ -544,7 +559,11 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"
+    ></script>
     <script type="module" src="../src/utils/messages.js"></script>
-    <script src="./js/index.js"></script>
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>

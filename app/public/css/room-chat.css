@@ -45,3 +45,51 @@ body {
 .border-top {
   border-top: 1px solid #dee2e6 !important;
 }
+.image-upload {
+  position: relative;
+  width: 50px; /* Kích thước của khối chứa */
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px dashed gray;
+  cursor: pointer;
+}
+
+.upload-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  width: 100%;
+}
+
+#background-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+#background-container {
+  border-radius: 3px;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+#emoji-btn {
+  border: 1px solid lightgray;
+  margin: 0 4px;
+  padding: 0 5px;
+}
+#emoji-picker {
+  display: none;
+  position: absolute;
+  z-index: 99;
+  right: 105px;
+  top: -1056%;
+  border-radius: 5px;
+}
