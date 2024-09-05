@@ -19,7 +19,13 @@ const initSocket = (server) => {
             if (!existingUser) {
                 createUserList(socket.id, username, roomname);
             }
-
+            socket.on('render all messages cts', ({ currentUser }) => {
+                socket.emit('render all messages stc', renderAllMessages({
+                    username,
+                    roomname,
+                    currentUser
+                }));
+            });
             io.to(roomname).emit("send user list from server to client", {
                 listUser: getUserList(roomname),
                 username,
@@ -50,25 +56,26 @@ const initSocket = (server) => {
                 const linkLocation = `<a href="https://www.google.com/maps/@${latitude},${longitude},15z" style="text-decoration: underline" target="_blank">Vị trí của tôi</a>`;
                 const messageText = createMessages(linkLocation);
                 io.to(socket.roomname).emit("message", {
-                    username: socket.username,
                     roomname: socket.roomname,
                     messageText,
                     listMessages: createMessage({ username, roomname, messageText })
                 });
             });
-            socket.on('typing', ({ botName, messageTyping, currentUser }) => {
+            socket.on('typing', ({ botName, messageTyping }) => {
+                console.log("dang nghẻ");
+                removeMesage("ADMIN")
                 const messageText = createMessages(messageTyping);
-                io.to(socket.roomname).emit('display typing', renderListMesages(
+                io.to(socket.roomname).emit('display typing',
                     {
+                        username: botName,
                         roomname: socket.roomname,
                         listMessages: createMessage({ username: botName, roomname, messageText }),
-                        currentUser
                     }
-                ));
+                );
             })
-            socket.on('stop typing', (currentUser) => {
+            socket.on('stop typing', () => {
                 removeMesage("ADMIN")
-                io.to(socket.roomname).emit('remove chatBot', renderListMesages({ roomname: socket.roomname, listMessages: removeMesage("ADMIN"), currentUser }))
+                io.to(socket.roomname).emit('remove chatBot', removeMesage("ADMIN"));
             });
             // Xử lý sự kiện disconnect
             socket.on('disconnecting', () => {

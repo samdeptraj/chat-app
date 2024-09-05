@@ -64,7 +64,7 @@ body {
   width: 100%;
 }
 
-#background-input {
+.background-input {
   position: absolute;
   top: 0;
   left: 0;

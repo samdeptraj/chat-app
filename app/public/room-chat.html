@@ -170,10 +170,12 @@
               </a>
               <hr class="d-block d-lg-none mt-1 mb-0" />
             </div>
+
             <form
               class="col-12 col-lg-7 col-xl-9"
               id="form-messages"
               style="height: 95vh"
+              enctype="multipart/form-data"
             >
               <div class="py-2 px-4 border-bottom d-none d-lg-block">
                 <div class="d-flex align-items-center py-1">
@@ -199,9 +201,13 @@
                           class="upload-icon"
                         />
                       </label>
-                      <input id="background-input" type="file" />
+                      <input
+                        class="background-input"
+                        id="background-input"
+                        type="file"
+                      />
                     </div>
-                    <button class="btn btn-primary btn-lg mr-1 px-3">
+                    <!-- <button class="btn btn-primary btn-lg mr-1 px-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -244,7 +250,27 @@
                           ry="2"
                         ></rect>
                       </svg>
-                    </button>
+                    </button> -->
+                    <!-- imgae upload  -->
+
+                    <div
+                      class="image-upload avatar-upload mr-2"
+                      style="border: none"
+                    >
+                      <label for="file-input">
+                        <img
+                          src="../images/avatars/avatar.png"
+                          alt="Upload Icon"
+                          class="upload-icon"
+                        />
+                      </label>
+                      <input
+                        class="background-input"
+                        type="file"
+                        id="file-input"
+                        name="avatar"
+                      />
+                    </div>
                     <button
                       class="btn btn-light border btn-lg px-3"
                       id="logout"
@@ -404,108 +430,7 @@
                       Sit meis deleniti eu, pri vidit meliore docendi ut, an eum
                       erat animal commodo.
                     </div>
-                  </div>
-
-                  <div class="chat-message-right mb-4">
-                    <div>
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                        class="rounded-circle mr-1"
-                        alt="Chris Wood"
-                        width="40"
-                        height="40"
-                      />
-                      <div class="text-muted small text-nowrap mt-2">
-                        2:40 am
-                      </div>
-                    </div>
-                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                      <div class="font-weight-bold mb-1">You</div>
-                      Cum ea graeci tractatos.
-                    </div>
-                  </div>
-
-                  <div class="chat-message-right mb-4">
-                    <div>
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                        class="rounded-circle mr-1"
-                        alt="Chris Wood"
-                        width="40"
-                        height="40"
-                      />
-                      <div class="text-muted small text-nowrap mt-2">
-                        2:41 am
-                      </div>
-                    </div>
-                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                      <div class="font-weight-bold mb-1">You</div>
-                      Morbi finibus, lorem id placerat ullamcorper, nunc enim
-                      ultrices massa, id dignissim metus urna eget purus.
-                    </div>
-                  </div>
-
-                  <div class="chat-message-left pb-4">
-                    <div>
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                        class="rounded-circle mr-1"
-                        alt="Sharon Lessman"
-                        width="40"
-                        height="40"
-                      />
-                      <div class="text-muted small text-nowrap mt-2">
-                        2:42 am
-                      </div>
-                    </div>
-                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                      <div class="font-weight-bold mb-1">Sharon Lessman</div>
-                      Sed pulvinar, massa vitae interdum pulvinar, risus lectus
-                      porttitor magna, vitae commodo lectus mauris et velit.
-                      Proin ultricies placerat imperdiet. Morbi varius quam ac
-                      venenatis tempus.
-                    </div>
-                  </div>
-
-                  <div class="chat-message-right mb-4">
-                    <div>
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                        class="rounded-circle mr-1"
-                        alt="Chris Wood"
-                        width="40"
-                        height="40"
-                      />
-                      <div class="text-muted small text-nowrap mt-2">
-                        2:43 am
-                      </div>
-                    </div>
-                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                      <div class="font-weight-bold mb-1">You</div>
-                      Lorem ipsum dolor sit amet, vis erat denique in, dicunt
-                      prodesset te vix.
-                    </div>
-                  </div>
-
-                  <div class="chat-message-left pb-4">
-                    <div>
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                        class="rounded-circle mr-1"
-                        alt="Sharon Lessman"
-                        width="40"
-                        height="40"
-                      />
-                      <div class="text-muted small text-nowrap mt-2">
-                        2:44 am
-                      </div>
-                    </div>
-                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                      <div class="font-weight-bold mb-1">Sharon Lessman</div>
-                      Sit meis deleniti eu, pri vidit meliore docendi ut, an eum
-                      erat animal commodo.
-                    </div>
-                  </div> -->
+                  </div>-->
                 </div>
               </div>
 
@@ -516,6 +441,7 @@
                     class="form-control input-chat"
                     id="input-chat"
                     placeholder="Type your message"
+                    autocomplete="off"
                   />
                   <button id="emoji-btn" class="btn btn-outline">
                     <i class="fa-regular fa-face-smile"></i>
@@ -563,7 +489,6 @@
       type="module"
       src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"
     ></script>
-    <script type="module" src="../src/utils/messages.js"></script>
     <script type="module" src="./js/index.js"></script>
   </body>
 </html>

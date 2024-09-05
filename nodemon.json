@@ -1,0 +1,9 @@
+{
+    "watch": [
+        "app/src"
+    ],
+    "ignore": [
+        "app/public",
+        "public/images/avatars"
+    ]
+}

@@ -1,17 +1,17 @@
-const renderListMessages2 = ({ username, roomname, messageText, listMessages, location }) => {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
-    listMessages = listMessages.filter(item => item.roomname === roomname);
-    let messageHtml = '';
-    listMessages.map(item => {
-        const checkUserSend = currentUser.username === item.username;
-        const messageClass = checkUserSend ? 'chat-message-right' : 'chat-message-left';
-        const spaceChat = checkUserSend ? 'pb-4' : 'mb-4';
-        const userShowName = checkUserSend ? 'You' : item.username;
-        return messageHtml += `
+export const renderListMessages2 = ({ username, roomname, listMessages, currentUser, location }) => {
+  console.log('username: ', username);
+  listMessages = listMessages.filter(item => item.roomname === roomname);
+  let messageHtml = '';
+  listMessages.map(item => {
+    const checkUserSend = currentUser.username === item.username;
+    const messageClass = checkUserSend ? 'chat-message-right' : 'chat-message-left';
+    const spaceChat = checkUserSend ? 'pb-4' : 'mb-4';
+    const userShowName = checkUserSend ? 'You' : item.username;
+    return messageHtml += `
           <div class="${messageClass} ${spaceChat}">
               <div>
                 <img
-                  src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                 src="${checkUserSend ? 'http://localhost:8000' + currentUser.avatarUrl : (username === "ADMIN" ? 'https://bootdey.com/img/Content/avatar/avatar3.png' : 'https://ss-images.saostar.vn/wp700/pc/1655895094264/saostar-zemx7kpv9n1wnysy.jpg')}"
                   class="rounded-circle mr-1"
                   alt="Chris Wood"
                   width="40"
@@ -27,7 +27,6 @@ const renderListMessages2 = ({ username, roomname, messageText, listMessages, lo
               </div>
             </div>
   `;
-    })
+  })
+  return messageHtml;
 }
-
-export default renderListMessages2;

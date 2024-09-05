@@ -1,4 +1,4 @@
-
+import { renderListMessages2 } from './getItem.js';
 //tao yeu cau ket noi
 const socket = io();
 document.addEventListener("DOMContentLoaded", () => {
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const backgroundContainer = document.getElementById('background-container');
   const emojiBtn = document.getElementById('emoji-btn');
   const emojiPicker = document.getElementById('emoji-picker');
+  const inputUploadAvatar = document.getElementById('file-input');
 
   const queryString = location.search;
   const params = Qs.parse(queryString, {
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     emojiPicker.style.display = 'none';
   })
   form.addEventListener("submit", (e) => {
+    console.log("user gui tin");
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem('user'));
     if (input.value) {
@@ -33,7 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
       input.value = "";
     }
   });
-
+  // const currentUser = JSON.parse(localStorage.getItem('user'));
+  // socket.emit('render all messages cts', { currentUser });
+  // socket.on('render all messages stc', (data) => {
+  //   messages.innerHTML = data;
+  //   messages.scrollTop = messages.scrollHeight;
+  // });
   btnShareLocation.addEventListener("click", () => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
@@ -55,38 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
   socket.on("notify", (message) => {
     console.log('Thông báo: ', message);
   });
-  socket.on("message", ({ username, roomname, messageText, listMessages }, location) => {
-    // console.log('Tin nhắn: ', { username, messageText });
+  socket.on("message", ({ roomname, messageText, listMessages }, location) => {
+    console.log("nahn tin");
     const currentUser = JSON.parse(localStorage.getItem('user'));
-    listMessages = listMessages.filter(item => item.roomname === roomname);
-    let messageHtml = '';
-    listMessages.map(item => {
-      const checkUserSend = currentUser.username === item.username;
-      const messageClass = checkUserSend ? 'chat-message-right' : 'chat-message-left';
-      const spaceChat = checkUserSend ? 'pb-4' : 'mb-4';
-      const userShowName = checkUserSend ? 'You' : item.username;
-      return messageHtml += `
-          <div class="${messageClass} ${spaceChat}">
-              <div>
-                <img
-                  src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                  class="rounded-circle mr-1"
-                  alt="Chris Wood"
-                  width="40"
-                  height="40"
-                />
-                <div class="text-muted small text-nowrap mt-2">
-                  ${item.messageText.created}
-                </div>
-              </div>
-              <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                <div class="font-weight-bold mb-1">${userShowName}</div>
-                  ${item.messageText.messageText ? item.messageText.messageText : location}
-              </div>
-            </div>
-  `;
-    })
-    messages.innerHTML = messageHtml;
+    const rendersHTMl = renderListMessages2({ username, roomname, messageText, listMessages, location, currentUser });
+    // console.log('Tin nhắn: ', { username, messageText });
+    messages.innerHTML = rendersHTMl;
     messages.scrollTop = messages.scrollHeight;
   });
 
@@ -94,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   socket.on("send user list from server to client", ({ listUser, username, roomname }) => {
     const currentUser = localStorage.getItem('user');
     if (!currentUser) {
-      localStorage.setItem('user', JSON.stringify({ username, roomname }));
+      localStorage.setItem('user', JSON.stringify({ username, roomname, avatarUrl: '/images/avatars/avatar.png' }));
     }
     let contentHtml = '';
     // room_title.innerHTML = listUser[0].roomname;
@@ -134,21 +115,27 @@ document.addEventListener("DOMContentLoaded", () => {
   inputChat.addEventListener('focus', () => {
     const botName = 'ADMIN';
     const user = JSON.parse(localStorage.getItem('user'));
+    console.log('userfocus: ', user);
     const messageTyping = `<span>${user.username} đang nhập tin nhắn </span> <img src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-07-846_512.gif" style="width:25px;" alt=""/> `;
-    socket.emit('typing', { botName, messageTyping, currentUser: user.username })
+    socket.emit('typing', { botName, messageTyping, currentUser: user })
   })
   input.addEventListener('blur', () => {
     const user = JSON.parse(localStorage.getItem('user'));
     socket.emit('stop typing', { currentUser: user.username })
   })
-  socket.on('display typing', (renderListMesages) => {
-    messages.innerHTML = renderListMesages;
+  socket.on('display typing', ({ roomname, listMessages }) => {
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+    const rendersHTMl = renderListMessages2({ roomname, listMessages, currentUser });
+    messages.innerHTML = rendersHTMl;
     messages.scrollTop = messages.scrollHeight;
   })
-  socket.on('remove chatBot', (renderListMesages) => {
-    messages.innerHTML = renderListMesages;
+  socket.on('remove chatBot', (listMessages) => {
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+    const rendersHTMl = renderListMessages2({ roomname, listMessages, currentUser });
+    messages.innerHTML = rendersHTMl;
     messages.scrollTop = messages.scrollHeight;
   })
+  //changer background
   backgroundInput.addEventListener('change', e => {
     const file = e.target.files[0];
     //check type img
@@ -181,7 +168,30 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   emojiPicker.addEventListener('emoji-click', e => {
     inputChat.value += e.detail.unicode;
-    console.log('inputChat.value: ', inputChat.value);
+  })
+  //upload avatar 
+  inputUploadAvatar.addEventListener('change', async (e) => {
+    const formData = new FormData(form);
+    formData.append('username', username);
 
+    await fetch('/upload-avatar', {
+      method: 'POST',
+      body: formData
+    }).then(res => res.json())
+      .then(data => {
+        console.log('data: ', data);
+        const user = JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('user', JSON.stringify({ username: user.username, roomname: user.roomname, avatarUrl: data.avatarUrl }));
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+        socket.emit('render all messages cts', { currentUser });
+        socket.on('render all messages stc', (data) => {
+          messages.innerHTML = data;
+          messages.scrollTop = messages.scrollHeight;
+        });
+
+        alert("Cập nhập avatar thành công");
+      }).catch(error => {
+        console.log('error: ', error);
+      })
   })
 });

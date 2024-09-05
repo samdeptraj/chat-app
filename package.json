@@ -9,11 +9,13 @@
   },
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.7.7",
     "bad-words": "^4.0.0",
     "date-fns": "^3.6.0",
     "emoji-picker-element": "^1.22.4",
     "express": "^4.19.2",
     "leo-profanity": "^1.7.0",
+    "multer": "^1.4.5-lts.1",
     "profanity-check": "^0.0.3",
     "profanity-filter": "^0.2.1",
     "socket.io": "^4.7.5",
