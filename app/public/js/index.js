@@ -109,7 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
   btnLogout.addEventListener('click', () => {
     localStorage.removeItem('user');
     // window.location.href = process.env.BASE_URL;
-    window.location.href = 'http://localhost:8000/';
+    const apiURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8000/' : 'https://chat-app-f3.onrender.com'
+    window.location.href = apiURL;
   })
   //chat typing
   inputChat.addEventListener('focus', () => {

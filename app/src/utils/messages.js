@@ -21,7 +21,7 @@ const renderAllMessages = ({ username, roomname, currentUser }) => {
         <div class="${messageClass} ${spaceChat}">
             <div>
               <img
-                src="${checkUserSend ? 'http://localhost:8000' + currentUser.avatarUrl : (username === 'ADMIN' ? 'https://bootdey.com/img/Content/avatar/avatar3.png' : 'https://ss-images.saostar.vn/wp700/pc/1655895094264/saostar-zemx7kpv9n1wnysy.jpg')}"
+                src="${checkUserSend ? 'https://chat-app-f3.onrender.com' + currentUser.avatarUrl : (username === 'ADMIN' ? 'https://bootdey.com/img/Content/avatar/avatar3.png' : 'https://ss-images.saostar.vn/wp700/pc/1655895094264/saostar-zemx7kpv9n1wnysy.jpg')}"
 
                 class="rounded-circle mr-1"
                 alt="Chris Wood"
